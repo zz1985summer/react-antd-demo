@@ -1,0 +1,44 @@
+.demo-logo-vertical {
+    height: 32px;
+    margin: 16px;
+    /*background: rgba(255, 255, 255, .2);*/
+    border-radius: 6px;
+    color:white;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+  }
+
+.demo-logo-vertical img {
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  margin-right: 10px;
+}
+
+.demo-logo-vertical .title {
+  font-size:16px;
+  white-space:nowrap;
+  overflow:hidden;
+  transition:opacity .3s width .3s;
+}
+
+.demo-logo-vertical .collapsed {
+  width: 0;
+  opacity: 0;
+  margin-left: 0;
+}
+
+.demo-logo-vertical .expanded {
+  width: auto;
+  opacity: 1;
+  margin-left: 4px;
+}
+
+.header{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #001529;
+  padding: 0 24px;
+}
