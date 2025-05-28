@@ -13,6 +13,9 @@ import { logoutApi } from '@/api/user';
 import logImg from '@/assets/react.svg';
 import './layout.css'
 import { generateAntdMenu } from '../../router/menuHelper';
+import { useDispatch } from 'react-redux';
+
+import RouterTabs from './routertabs/routerTabs';
 
 const { Header, Sider, Content } = Layout;
 
@@ -23,9 +26,22 @@ export default function Main() {
     const {
         token: { colorBgContainer, borderRadiusLG },
       } = theme.useToken();
-
+    
+    const dispatch = useDispatch();
     const menuList = useSelector(state => state.menu.menuList);
+    const activeKey = useSelector(state => state.tab.activeKey);
     const menuItems = generateAntdMenu(menuList);
+    
+
+    const onMenuClick = (key) => {
+      const clickedMenu = menuList.find(item => item.path === key.key);
+      if (clickedMenu) {
+        dispatch({ type: 'tab/add', payload: { key:clickedMenu.path, label:clickedMenu.label, path: clickedMenu.path } });
+      }
+      dispatch({ type: 'tab/setActive', payload: clickedMenu.path });
+      navigate(clickedMenu.path);
+    }
+
 
     const handleLogout = () => {
       logoutApi();
@@ -53,8 +69,9 @@ export default function Main() {
                 theme="dark"
                 mode="inline"
                 defaultSelectedKeys={['1']}
+                selectedKeys={[activeKey]}
                 items={menuItems}
-                onClick={({key}) => navigate(key)}
+                onClick={onMenuClick}
               />
             </Sider>
             <Layout>
@@ -77,11 +94,12 @@ export default function Main() {
                       </span>
                     </Dropdown>
                   </div>
+                  
                 </Header>
-                
+                <RouterTabs />
                 <Content
                   style={{
-                    margin: '24px 16px',
+                    margin: '10px 16px 24px 16px',
                     padding: 280,
                     background: colorBgContainer,
                     borderRadius: borderRadiusLG,

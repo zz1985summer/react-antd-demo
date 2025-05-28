@@ -8,16 +8,16 @@
 
 登录页
 
-![image](doc/login.jpg)
+![login](doc/login.jpg)
 
 登录成功
 
-![image](doc/layout.jpg)
+![index](doc/layout.jpg)
 
 菜单跳转
 
-![image](doc/menu9.jpg)
+![menu](doc/menu9.jpg)
 
 登出
 
-![image](doc/logout.jpg)
+![logout](doc/logout.jpg)

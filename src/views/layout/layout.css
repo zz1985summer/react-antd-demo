@@ -42,3 +42,11 @@
   background: #001529;
   padding: 0 24px;
 }
+
+.ant-tabs-nav {
+  margin-bottom: 0px !important;
+}
+
+.ant-tabs-nav-wrap{
+  border-top: #f3f5f7 1px solid;
+}

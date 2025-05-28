@@ -1,7 +1,7 @@
 
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route,Navigate } from 'react-router-dom';
 import Login from '@/views/login';
-import NotFound from '@/views/notfound';
+//import NotFound from '@/views/notfound';
 import ProtectedRoute from './protectedRoute';
 import RouterConfig from './routerConfig';
 
@@ -22,7 +22,7 @@ export default function Router(){
                     }
                 />
                 {/*404页面*/}
-                <Route path="*" element={<NotFound />} />
+                <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
         </BrowserRouter>
     )
