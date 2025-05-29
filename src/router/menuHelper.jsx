@@ -3,6 +3,9 @@ import {
     VideoCameraOutlined,
     InfoCircleOutlined,
     FundOutlined,
+    AreaChartOutlined,
+    AppstoreAddOutlined,
+    AppstoreOutlined,
 } from '@ant-design/icons';
 import React from 'react';
 import { Outlet } from 'react-router-dom';
@@ -19,6 +22,9 @@ const iconMap = {
     VideoCameralined: <VideoCameraOutlined />,
     InfoCircleOutlined: <InfoCircleOutlined />,
     FundOutlined: <FundOutlined />,
+    AreaChartOutlined: <AreaChartOutlined />,
+    AppstoreAddOutlined: <AppstoreAddOutlined />,
+    AppstoreOutlined: <AppstoreOutlined />,
 };
 
 const componentMap = {

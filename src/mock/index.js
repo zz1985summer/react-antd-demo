@@ -52,20 +52,20 @@ Mock.mock('/api/getMenuList','get',() => {
             {
                 path:'/reports',
                 label:'报表管理',
-                icon:'FoundOutlined',
+                icon:'AreaChartOutlined',
                 key:'5',
                 children:[
                     {
                         path:'/reports/daily',
                         label:'日报',
-                        icon:'FileTextOutlined',
+                        icon:'AppstoreAddOutlined',
                         key:'5-1',
                         component:'DailyReport',
                     },
                     {
                         path:'/reports/monthly',
                         label:'月报',
-                        icon:'FileTextOutlined',
+                        icon:'AppstoreOutlined',
                         key:'5-2',
                         component:'MonthlyReport',
                     },
