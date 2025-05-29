@@ -5,11 +5,14 @@ import {
     FundOutlined,
 } from '@ant-design/icons';
 import React from 'react';
+import { Outlet } from 'react-router-dom';
 import Dashboard from '@/views/dashboard';
 import Admin from '@/views/admin';
 import About from '@/views/about';
 import DataPage from '@/views/datapage';
 import Main from '@/views/layout';
+import DailyReport from '@/views/reports/daily/dailyReport';
+import MonthlyReport from '@/views/reports/monthly/monthlyReport';
 
 const iconMap = {
     UserOutlined: <UserOutlined />,
@@ -24,27 +27,47 @@ const componentMap = {
     About,
     DataPage,
     Main,
+    DailyReport,
+    MonthlyReport,
 };
 
-export function generateAntdMenu(menuList) {
-    return menuList.map((item) => ({
-        key:item.path,
-        icon:iconMap[item.icon] || <UserOutlined />,
-        label:item.label
-    }));
+export function generateAntdMenu(menuList = []) {
+    return menuList.map((item) => {
+        const hasChildren = Array.isArray(item.children) && item.children.length > 0;
+        return {
+            key: item.path,
+            icon: iconMap[item.icon] || <UserOutlined />,
+            label: item.label,
+            children: hasChildren ? generateAntdMenu(item.children) : undefined,
+        };
+        
+    });
 }
 
 export function generateRoutes(menuList) {
+    const buildRoutes = (list) => {
+        return list.map((item) => {
+            const hasChildren = Array.isArray(item.children) && item.children.length > 0;
+
+            return {
+                path: item.path,
+                element: componentMap[item.component] 
+                ? React.createElement(componentMap[item.component]) : (hasChildren?<Outlet />:<div>未定义组件</div>),
+                children: hasChildren ? buildRoutes(item.children) : undefined,
+            };
+        });
+    };
+
     return [
         {
             path:'/',
-            element:<componentMap.Main />, //外层Layout
-            children:menuList.map((item) => ({
-                path: item.path ==='/' ? "" : item.path.replace('/',''),
-                element: React.createElement(componentMap[item.component]),
-                key: item.key,
-            })),
+            element: <Main />, // 外层Layout
+            children: buildRoutes(menuList),
         },
+        {
+            path:'*',
+            element: <div>404 Not Found</div>, // 404页面
+        }
     ];
 }
 

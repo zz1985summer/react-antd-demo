@@ -38,6 +38,17 @@ export default function tabReducer(state = initialState, action) {
 
                 return {...state,tabs: newTabs,activeKey: nextActive};
             }
+        case 'tab/closeOthers':
+            return {
+                tabs:state.tabs.filter(tab => tab.key === action.payload || tab.key === '/'),
+                activeKey:action.payload,
+            };
+        case 'tab/closeAll':{
+            return {
+                tabs:[{key:'/', label:'仪表盘',path:'/'}],
+                activeKey:'/',
+            };
+        }
         default:
             return state;
     }

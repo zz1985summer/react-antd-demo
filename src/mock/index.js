@@ -48,6 +48,28 @@ Mock.mock('/api/getMenuList','get',() => {
                 icon:'VideoCameraOutlined',
                 key:"4",
                 component:"Admin"
+            },
+            {
+                path:'/reports',
+                label:'报表管理',
+                icon:'FoundOutlined',
+                key:'5',
+                children:[
+                    {
+                        path:'/reports/daily',
+                        label:'日报',
+                        icon:'FileTextOutlined',
+                        key:'5-1',
+                        component:'DailyReport',
+                    },
+                    {
+                        path:'/reports/monthly',
+                        label:'月报',
+                        icon:'FileTextOutlined',
+                        key:'5-2',
+                        component:'MonthlyReport',
+                    },
+                ]
             }
         ]
     }

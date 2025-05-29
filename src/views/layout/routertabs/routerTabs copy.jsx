@@ -1,4 +1,4 @@
-import { Dropdown,Tabs,Menu } from 'antd';
+import { Tabs } from 'antd';
 import { useSelector,useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { useEffect,useState } from 'react';
@@ -36,24 +36,6 @@ export default function RouterTabs() {
       items={tabs.map(tab => ({
         key: tab.key,
         label: (
-          <Dropdown
-            trigger={['contextMenu']}
-            overlay={
-              <Menu
-                onClick={({key:menuKey}) => {
-                  if(menuKey === 'closeOthers') {
-                    dispatch({type:'tab/closeOthers',payload:tab.key});
-                  } else if (menuKey === 'closeAll') {
-                    dispatch({type:'tab/closeAll'});
-                  }
-
-                }}
-              >
-                <Menu.Item key="closeOthers">关闭其他</Menu.Item>
-                <Menu.Item key="closeAll">关闭所有</Menu.Item>
-              </Menu>
-            }
-            >
           <div
             style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}
             onMouseEnter={() => setHoveredKey(tab.key)}
@@ -70,7 +52,6 @@ export default function RouterTabs() {
                 />
             )}
           </div>
-          </Dropdown>
         ),
       }))}
       style={{background:'#fff',marginBottom:0}} />

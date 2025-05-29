@@ -1,5 +1,5 @@
 import { Button, Layout, Menu, theme,Dropdown,Avatar } from 'antd';
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { Outlet,useNavigate } from 'react-router-dom';
 import {
     MenuFoldOutlined,
@@ -17,6 +17,7 @@ import { useDispatch } from 'react-redux';
 
 import RouterTabs from './routertabs/routerTabs';
 
+
 const { Header, Sider, Content } = Layout;
 
 
@@ -31,15 +32,54 @@ export default function Main() {
     const menuList = useSelector(state => state.menu.menuList);
     const activeKey = useSelector(state => state.tab.activeKey);
     const menuItems = generateAntdMenu(menuList);
+    const [openKeys,setOpenKeys] = useState([]);
     
+    const findOpenKeys = (menuList,currentPath) => {
+      let openKeys = [];
+
+      const traverse = (items,parentPath) => {
+        for(let item of items) {
+          if(item.path === currentPath) {
+            if(parentPath) openKeys.push(parentPath);
+            return true;
+          }
+          if(item.children) {
+            if(traverse(item.children,item.path)) {
+              if(parentPath) openKeys.push(parentPath);
+              else openKeys.push(item.path);
+              return true;
+            }
+          }
+        }
+        return false;
+      };
+
+      traverse(menuList,null);
+      return openKeys;
+    }
+
+    useEffect(() => {
+      const keys = findOpenKeys(menuList,activeKey);
+      setOpenKeys(keys);
+    },[activeKey,menuList]);
+
+    const flatMenuList = (menus) => {
+      return menus.reduce((acc,item) => {
+        if(item.children) {
+          return acc.concat(item,...flatMenuList(item.children));
+        }
+        return acc.concat(item);
+      },[]);
+    }
 
     const onMenuClick = (key) => {
-      const clickedMenu = menuList.find(item => item.path === key.key);
+      const allMenuItems = flatMenuList(menuList);
+      const clickedMenu = allMenuItems.find(item => item.path === key.key);
       if (clickedMenu) {
-        dispatch({ type: 'tab/add', payload: { key:clickedMenu.path, label:clickedMenu.label, path: clickedMenu.path } });
+        dispatch({ type: 'tab/add', payload: { key: clickedMenu.path, label: clickedMenu.label, path: clickedMenu.path } });
+        dispatch({ type: 'tab/setActive', payload: clickedMenu.path });
+        navigate(clickedMenu.path);
       }
-      dispatch({ type: 'tab/setActive', payload: clickedMenu.path });
-      navigate(clickedMenu.path);
     }
 
 
@@ -71,7 +111,9 @@ export default function Main() {
                 defaultSelectedKeys={['1']}
                 selectedKeys={[activeKey]}
                 items={menuItems}
-                onClick={onMenuClick}
+                openKeys={openKeys}
+                onOpenChange={setOpenKeys}
+                onClick={({key}) => onMenuClick({key})}
               />
             </Sider>
             <Layout>
